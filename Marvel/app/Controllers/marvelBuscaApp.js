@@ -1,13 +1,17 @@
 angular.module("marvelBuscaApp").controller("indexController",function($scope  , marvelService ,  config ){
-    $scope.mainTitle = "Bem Vindo !";
+    $scope.mainTitle = "Bem Vindo!";
     const baseurl ="http://gateway.marvel.com/";
     const apipublickey="5a237863b3cc2061003cbbc4fe20dc06";
     const apiprivatekey="fbf255068eccea6d0ef951b9f25626b57ab2fe72";
-    listagemCharacters="/v1/public/characters";
+    listagemCharacters="v1/public/characters";
+
+    $scope.apareceInfo = false;
 
     $scope.HeroesList = [];
     $scope.HeroesListShow = [];
     $scope.HeroInfo = null;
+    $scope.imgHeroi = '';
+    $scope.description = '';
 
     $scope.init = () => {
        
@@ -18,6 +22,7 @@ angular.module("marvelBuscaApp").controller("indexController",function($scope  ,
         var timestamp = Date.now().toString();      
         var hashcode = Gethash(timestamp)
         var offset = 4;
+        console.log(hashcode)
         const urlAPI = baseurl+listagemCharacters+"?limit=100&offset="+offset+"&nameStartsWith="+param+"&ts="+timestamp+"&apikey="+apipublickey+"&hash="+hashcode;
        
          marvelService.GetTeste(urlAPI).then(function(response){
@@ -38,19 +43,28 @@ angular.module("marvelBuscaApp").controller("indexController",function($scope  ,
             var timestamp = Date.now().toString();      
             var hashcode = Gethash(timestamp)
             var offset = 4;
-            const urlAPI = "https://gateway.marvel.com:443/v1/public/characters/"+id+"&ts="+timestamp+"&apikey="+apipublickey+"&hash="+hashcode;
+            const urlAPI = "https://gateway.marvel.com/v1/public/characters/"+id+"?&ts="+timestamp+"&apikey="+apipublickey+"&hash="+hashcode;
+          
             console.log(urlAPI);
     
             marvelService.GetById(urlAPI).then(function(response){
                 if(response){
                     $scope.HeroInfo = response.data;
-                  
-                    console.log($scope.HeroInfo)
+                    $scope.imgHeroi = ($scope.HeroInfo.results[0].thumbnail.path + "." + $scope.HeroInfo.results[0].thumbnail.extension )
+                    $scope.apareceInfo = true;
+                    $scope.description = $scope.HeroInfo.results[0].description;
+                    console.log($scope.description)
                 }
          });    
         }
        
 
+    }
+
+    $scope.VoltarBusca = () => {
+        $scope.apareceInfo = false;
+        $scope.description ='';
+        
     }
 
     $scope.GetCharacter = (param) => {

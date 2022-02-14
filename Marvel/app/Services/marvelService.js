@@ -20,6 +20,7 @@ angular.module("marvelBuscaApp").factory("marvelService" , function($http , $q){
 
         GetById : function(url)
         {
+            var deferred = $q.defer();
             $http.get(url)
             .success(function (response) {
                 deferred.resolve(response);

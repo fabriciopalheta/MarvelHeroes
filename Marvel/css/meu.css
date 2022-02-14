@@ -41,6 +41,17 @@ body
   
 }
 
+.textoLinkHeroi{
+    text-align:center; 
+    font-family:arial; 
+    color:RED; 
+    font-weight: bold;
+    margin-left: auto;
+    margin-right: auto;
+    text-decoration: none;
+    align-items: center;
+}
+
 t1 {
      color: rgb(36, 36, 36); font-family: 'Helvetica Neue', sans-serif; font-size: 275px; font-weight: bold; letter-spacing: -1px; line-height: 1; text-align: left; }
 
